@@ -3,6 +3,7 @@ import { configured, supabase } from './lib/supabase.js'
 import { AuthContext } from './lib/auth.jsx'
 import { Icon } from './lib/icons.jsx'
 import Login from './screens/Login.jsx'
+import MenuPublico from './screens/MenuPublico.jsx'
 import { Aviso, FaltaConfigurar } from './screens/Aviso.jsx'
 import Shell from './Shell.jsx'
 
@@ -15,6 +16,7 @@ function ConSesion() {
   const [sesion, setSesion] = useState(undefined) // undefined = todavía comprobando
   const [perfil, setPerfil] = useState(undefined)
   const [errorPerfil, setErrorPerfil] = useState('')
+  const [verLogin, setVerLogin] = useState(false) // false = carta pública, true = formulario de ingreso
   const usuarioId = sesion?.user?.id
 
   useEffect(() => {
@@ -38,7 +40,11 @@ function ConSesion() {
   if (sesion === undefined || (usuarioId && perfil === undefined)) {
     return <Aviso icono="flame" titulo="Cargando…"><span /></Aviso>
   }
-  if (!sesion) return <Login />
+  if (!sesion) {
+    return verLogin
+      ? <Login onVolver={() => setVerLogin(false)} />
+      : <MenuPublico onLogin={() => setVerLogin(true)} />
+  }
 
   if (!perfil || !perfil.activo) {
     return (

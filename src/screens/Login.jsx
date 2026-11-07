@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase.js'
 import { Icon } from '../lib/icons.jsx'
 import logo from '../assets/wordmark.png'
 
-export default function Login() {
+export default function Login({ onVolver }) {
   const [correo, setCorreo] = useState('')
   const [clave, setClave] = useState('')
   const [error, setError] = useState('')
@@ -40,6 +40,7 @@ export default function Login() {
         <p className="muted small" style={{ textAlign: 'center' }}>
           ¿No tienes acceso? Pídelo al dueño del restaurante.
         </p>
+        {onVolver && <button type="button" className="btn" onClick={onVolver}>← Volver a la carta</button>}
       </form>
     </div>
   )
